@@ -1,0 +1,14 @@
+# MySQL
+# Database: Wetter
+# Table:    Daten
+# Rows:
+# - ID        double
+# - time      time stamp  = local time
+# - temp      float       = indoor temperature
+# - press     float       = indoor air-pressure
+# - humi      float       = indoor humity
+# - tempA     float       = outdoor temperature
+# - humiA     float       = outdoor humity
+# - windDir   int(4)      = wind direction
+# - windSpeed float       = wind speed
+# - rain      float       = rain gauge
