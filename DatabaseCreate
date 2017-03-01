@@ -4,11 +4,12 @@
 # Rows:
 # - ID        double
 # - time      time stamp  = local time
-# - temp      float       = indoor temperature
-# - press     float       = indoor air-pressure
-# - humi      float       = indoor humity
-# - tempA     float       = outdoor temperature
-# - humiA     float       = outdoor humity
+# - temp01    float       = indoor temperature
+# - humi01    float       = indoor humity
+# - press01   float       = indoor air-pressure
+# - temp02    float       = outdoor temperature
+# - humi02    float       = outdoor humity
+# - press02   float       = indoor air-pressure
 # - windDir   int(4)      = wind direction
 # - windSpeed float       = wind speed
 # - rain      float       = rain gauge
