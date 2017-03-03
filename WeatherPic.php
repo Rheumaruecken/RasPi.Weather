@@ -3,15 +3,15 @@ header("Content-type: image/png");
 
 // VARIABLEN
    $_db_host = "localhost";	// Server
-   $_db_user = "phpUser";	// User
-   $_db_pswd = "phpUser";	// PW
+   $_db_user = "user";		// User
+   $_db_pswd = "password";	// PW
    $_db_data = "Wetter";	// Datenbank
-   $_db_tabl = "Daten";	// Tabelle
+   $_db_tabl = "Daten";		// Tabelle
    $temp[0] = 0;		// Temperatur
    $i = 0;			// Schleife
-   $zeilen = 0;		// 4Tage Vertikalanzeige
-   $xDB = 5;
-   $yDB = 405;
+   $zeilen = 0;			// 4Tage Vertikalanzeige
+   $xDB = 5;			// xPosition DashBoard
+   $yDB = 405;			// yPosition DashBoard
 
 // erstellen eines leeren Bildes mit 500px Breite und 50px Hoehe
    $bild = imagecreatetruecolor(500, 600);
