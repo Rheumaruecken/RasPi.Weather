@@ -7,7 +7,7 @@
 # - Spare part Anemometer for Froggit WH1080
 # - PCF8583P (Counter)
 # - GY-271 (Triple Axis Kompass-Magnetometer)
-# - 0,96 Zoll I2C 128 x 64 Display-Modul
+# - 0,96 Zoll I2C 128 x 64 OLED-Display-Modul
 #
 # Software
 # - Raspian     OS
