@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# filename: _weatherDirection.py 
+# Wind direction from GY271
 
 import smbus
 import time
