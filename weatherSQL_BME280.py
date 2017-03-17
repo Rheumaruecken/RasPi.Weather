@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # filename: weatherDSP.py 
-# reading temp humity and pressure from a BME280
+# reading temp humidity and pressure from a BME280
 
 from Adafruit_BME280 import *
 import MySQLdb as my
