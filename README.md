@@ -1,13 +1,20 @@
 # RasPi.Weather
 #
 # Hardware
-# - RaspberryPi 2B
+# - RaspberryPi 2B+
 # - BME280 (Temp-Humity-Pressur)
 # - DHT22  (Temp-Humity)
 # - Spare part Anemometer for Froggit WH1080
 # - PCF8583P (Counter)
 # - GY-271 (Triple Axis Kompass-Magnetometer)
+# - BH 1750 FVI
+# - Regensensor
 # - 0,96 Zoll I2C 128 x 64 OLED-Display-Modul
+#
+# - RJ11 6P4C Buchse
+# - Lochrasterplatine
+# - 40x 20cm female-female jumper wire cable
+# - Gehäuse Schale Fall Box für Raspberry Pi B+/Pi 2/Pi 3 - Schwarz 
 #
 # Software
 # - Raspian     OS
@@ -15,6 +22,7 @@
 # - mySQL       Database
 # - OpenVPN     Virtual Privat Network
 # - Adafruit    Driver
+#
 #
 # Description
 # - BME280     I2C   Outdoor  for Temperature, Humity, Air Pressur
