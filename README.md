@@ -14,7 +14,7 @@
 # - RJ11 6P4C Buchse
 # - Lochrasterplatine
 # - 40x 20cm female-female jumper wire cable
-# - Gehäuse Schale Fall Box für Raspberry Pi B+/Pi 2/Pi 3 - Schwarz 
+# - Gehäuse für Raspberry Pi B+/Pi 2/Pi 3 
 #
 # Software
 # - Raspian     OS
