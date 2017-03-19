@@ -32,5 +32,5 @@
 #     connected to a PFC8583 to count pulses and transmit via I2C
 #     fixed on a 2cm-cable-conduit and a header for the circuit board
 # - Compass    Outdoor for Wind Direction
-#     GY271 fixt in the Cale Conuit and a magnet in the wind van 
+#     GY271 fixt in the cable conduit and a magnet in the wind van 
 # - DHT22      GPIO  Indoor for Temperature, Humity (in addition if necessary)
