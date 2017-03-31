@@ -1,24 +1,42 @@
 # WeatherBerry
-# Selfmade weather station
-# 
-# @ Manfred Nebel
+# Selfmade Wetterstation
+# von
+# Manfred Nebel
 
 import smbus
 import time
+import MySQLdb as my
+import datetime
 from ctypes import c_short
 from ctypes import c_byte
 from ctypes import c_ubyte
 
 # I2C Addresses of divices
-GY302	 = 0x23               # Lux-Sensor
-GY271	 = 0x1e               # Compass  WindDirection
-PCF8583  = 0x51             # Counter  WindSpeed
-BME280_A = 0x76             # Indoor  Temp/Humi/Press
-BME280_B = 0x77             # Outdoor Temp/Humi/Press
+GY302	 = 0x23 # Lux-Sensor
+GY271	 = 0x1e # Compass  WindDirection
+PCF8583  = 0x51 # Counter  WindSpeed
+BME280_A = 0x76 # outdor   Temp/Humi/Press
+BME280_B = 0x77 # Indor    Temp/Humi/Press
 
-bus = smbus.SMBus(1)        # Rev 2 Pi, Pi 2 & Pi 3 uses bus 1
-                            # Rev 1 Pi uses bus 0
+bus = smbus.SMBus(1) # Rev 2 Pi, Pi 2 & Pi 3 uses bus 1
+                     # Rev 1 Pi uses bus 0
 
+# Werte der Sensoren
+temp01 = 0
+temp02 = 0
+humi01 = 0
+humi02 = 0
+press01= 0
+press02= 0
+light  = 0
+speed  = 0
+compass= 0
+
+# mySQL-Connect
+host  = "localhost"
+user  = "user"
+passwd= "password"
+db    = "Wetter"
 
 # Umwandlung von Werten
 
@@ -46,17 +64,12 @@ def getUChar(data,index):
 def convertToNumber(data):
   return ((data[1] + (256 * data[0])) / 1.2)
 
-
-
-# Chip ID Register Address
-def readBME280ID(DEVICE):
-  REG_ID     = 0xD0
-  (chip_id, chip_version) = bus.read_i2c_block_data(DEVICE, REG_ID, 2)
-  return (chip_id, chip_version)
-
+def convertBCD_DEC (data):
+  data = (data/16*10)+(data%16)
+  return data
 
 # BME280Auslesen
-def readBME280All(DEVICE):
+def readBME280(DEVICE):
   # BME280-Register Addresses
   REG_DATA = 0xF7
   REG_CONTROL = 0xF4
@@ -156,34 +169,23 @@ def readBME280All(DEVICE):
 
   return temperature/100.0,pressure/100.0,humidity
 
-def callBME(DEVICE):
-#  (chip_id, chip_version) = readBME280ID(DEVICE)
-#  print "Chip ADD    :","{:4.0f}".format(DEVICE)
-#  print "Chip ID     :","{:4.0f}".format(chip_id)
-#  print "Version     :","{:4.0f}".format(chip_version)
-
-  temp,press,humi = readBME280All(DEVICE)
-
-  print "Temperature  : ","{:10.2f}".format(temp), "C"
-  print "Pressure     : ","{:10.2f}".format(press), "hPa"
-  print "Humidity     : ","{:10.2f}".format(humi), "%"
-
 
 def readPCF8583(DEVICE):
-   bus.write_byte_data(DEVICE, 0x00, 0xe3)      # control/status STOP
+   bus.write_byte_data(DEVICE, 0x00, 0xe3)	# control/status STOP
 
    s = convertBCD_DEC(bus.read_byte_data(DEVICE, 0x01))
+   time.sleep(.5)
    s = (convertBCD_DEC(bus.read_byte_data(DEVICE, 0x02)) * 100)+ s
+   time.sleep(.5)
    s = (convertBCD_DEC(bus.read_byte_data(DEVICE, 0x03)) * 10000)+ s
+   time.sleep(.5)
    bus.write_byte_data(DEVICE, 0x01, 0x00)     # Digit 0/1      CLS
    bus.write_byte_data(DEVICE, 0x02, 0x00)     # Digit 2/3      CLS
    bus.write_byte_data(DEVICE, 0x03, 0x00)     # Digit 4/5      CLS
    bus.write_byte_data(DEVICE, 0x08, 0x00)     # alarm control  CLS
    bus.write_byte_data(DEVICE, 0x00, 0x23)     # control/status START
-   s = s/3600                                  # 2 Impulse auf 0,5m
+   s = s/3600					# 2 Impulse auf 0,5m 
    return s
-
-
 
 # def readGY271(DEVICE):
 #   bus.write_byte_data(DEVICE, , OVERSAMPLE_HUM)
@@ -197,23 +199,34 @@ def readPCF8583(DEVICE):
 
  
 def readGY302(DEVICE):
-  data = bus.read_i2c_block_data(DEVICE,ONE_TIME_HIGH_RES_MODE_1)
-  data = data / 1.2
-  return convertToNumber(data)
+  light = bus.read_i2c_block_data(DEVICE,0x20) # = ONE_TIME_HIGH_RES_MODE_1
+  return convertToNumber(light)
 
+
+def insertData():
+   temp01,press01,humi01 = readBME280(BME280_A)
+   temp02,press02,humi02 = readBME280(BME280_B)
+   light = str(readGY302(GY302))
+   speed = readPCF8583(PCF8583)
+   con = my.connect(host,user,passwd,db)
+   cursor = con.cursor()
+   sql    = "INSERT INTO Daten (temp01, press01, humi01, temp02, press02, humi02,light,speed,compass ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"  % \
+            (temp01,press01,humi01,temp02,press02,humi02,light,speed,compass)
+
+   # Daten schreiben
+   number_of_rows = cursor.execute(sql)
+   con.commit()
+
+#   except Error as error:
+#      print(error)
+
+   # DB-Verbindung schliessen
+   cursor.close()
+   con.close()
 
 def main():
-  print "--------------------------------"
-  print "Indoor Values"
-  callBME(BME280_B)
-  print "--------------------------------"
-  print "Outdoor Values"
-  callBME(BME280_A)
-  print "Light Level  :" # + str(readGY302()) + " lx"
-  print "WindSped:    :"
-  print "WindDirection:"
-  print "Rain         :"
-  print "--------------------------------"
+  insertData()
+  bus.close()
 
 if __name__=="__main__":
    main()
