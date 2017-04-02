@@ -174,9 +174,7 @@ def readPCF8583(DEVICE):
    bus.write_byte_data(DEVICE, 0x00, 0xe3)	# control/status STOP
 
    s = convertBCD_DEC(bus.read_byte_data(DEVICE, 0x01))
-   time.sleep(.5)
    s = (convertBCD_DEC(bus.read_byte_data(DEVICE, 0x02)) * 100)+ s
-   time.sleep(.5)
    s = (convertBCD_DEC(bus.read_byte_data(DEVICE, 0x03)) * 10000)+ s
    time.sleep(.5)
    bus.write_byte_data(DEVICE, 0x01, 0x00)     # Digit 0/1      CLS
