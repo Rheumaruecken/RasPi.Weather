@@ -2,17 +2,20 @@
 #
 # Hardware
 # - RaspberryPi 2B+
-# - BME280 (Temp-Humity-Pressur)
-# - DHT22  (Temp-Humity)
+# - BME280 (Temp-Humity-Pressur) 2x (Innen-Aussentemperatur)
 # - Spare part Anemometer for Froggit WH1080
 # - PCF8583P (Counter)
 # - GY-271 (Triple Axis Kompass-Magnetometer)
 # - BH 1750 FVI
-# - Regensensor
+# - Regensensor 2x
 # - 0,96 Zoll I2C 128 x 64 OLED-Display-Modul
 #
 # - RJ11 6P4C Buchse
 # - Lochrasterplatine
+# - 5m Flachbandkabel
+# - 2x 10pol Stiftleiste auf Lochraster (innen)
+# - 4x 10pol Stiftleiste auf Lochraster (aussen) 3x MPE 087-2-040 teilen
+# - 4x 10pol. Pfostenbuchse mit Zugentlastung PFL 10
 # - 40x 20cm female-female jumper wire cable
 # - Gehäuse für Raspberry Pi B+/Pi 2/Pi 3 
 #
